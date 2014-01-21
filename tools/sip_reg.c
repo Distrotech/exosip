@@ -32,7 +32,7 @@
 #include <os_cfg_pub.h>
 #endif
 
-#if !defined(WIN32) && !defined(_WIN32_WCE)
+#if !defined(WIN32) && !defined(_WIN32_WCE) && !defined(__MINGW32__)
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -44,6 +44,8 @@
 #ifdef OSIP_MT
 #include <pthread.h>
 #endif
+#else
+#include <windows.h>
 #endif
 
 #ifdef _WIN32_WCE
@@ -122,7 +124,7 @@ static void *register_proc(void *arg)
 	int reg;
 
 	for (;;) {
-#ifdef _WIN32_WCE
+#if defined(_WIN32_WCE) || defined(__MINGW32__)
 		Sleep((regparam->expiry / 2) * 1000);
 #else
 		sleep(regparam->expiry / 2);
@@ -170,7 +172,7 @@ int main(int argc, char *argv[])
 	int debug = 0;
 	int nofork = 0;
 
-#ifdef _WIN32_WCE
+#if defined(_WIN32_WCE) || defined(__MINGW32__)
 	proxy = osip_strdup("sip:sip.antisip.com");
 	fromuser = osip_strdup("sip:jack@sip.antisip.com");
 
@@ -257,7 +259,7 @@ int main(int argc, char *argv[])
 		usage();
 		exit(1);
 	}
-#ifndef _WIN32_WCE
+#if !defined(_WIN32_WCE) && !defined(__MINGW32__)
 	if (!nofork) {
 		int cpid = fork();
 

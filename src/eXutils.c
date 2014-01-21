@@ -1008,7 +1008,11 @@ static osip_list_t *dnsutils_list=NULL;
 #ifdef HAVE_ARPA_NAMESER_H
 #  include <arpa/nameser.h>
 #else
+#ifdef WIN32
+#  include <windows.h>
+#else
 #  include "nameser.h"
+#endif
 #endif
 #ifdef HAVE_ARPA_NAMESER_COMPAT_H
 #  include <arpa/nameser_compat.h>

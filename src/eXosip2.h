@@ -42,7 +42,9 @@
 #include <stdlib.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#ifndef __MINGW32__
 #define close(s) closesocket(s)
+#endif
 #else
 #include <sys/types.h>
 #include <sys/socket.h>

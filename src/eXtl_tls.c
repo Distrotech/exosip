@@ -37,7 +37,9 @@
 #endif
 
 #ifdef WIN32
+#ifndef __MINGW32__
 #include <Mstcpip.h>
+#endif
 #include <wincrypt.h>
 #endif
 
